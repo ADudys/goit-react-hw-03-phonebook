@@ -18,9 +18,10 @@ export class App extends Component {
     };
   }
   componentDidMount() {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    
-
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -28,6 +29,9 @@ export class App extends Component {
     const prevContacts = prevState.contacts;
     if (nextContacts !== prevContacts) {
       localStorage.setItem('contacts', JSON.stringify(nextContacts));
+    }
+    if (nextContacts.length === 0) {
+      localStorage.removeItem('contacts');
     }
   }
 
